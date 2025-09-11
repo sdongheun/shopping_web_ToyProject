@@ -1,0 +1,67 @@
+.myCartContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product {
+  font-size: 2rem;
+  font-weight: 700;
+  flex: 1;
+}
+
+.detailText {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+.number {
+  color: var(--Red);
+}
+
+.at {
+  font-size: 2rem;
+  color: var(--Rose-400);
+  font-weight: 100;
+}
+
+.price {
+  color: var(--Rose-400);
+  font-weight: 700;
+}
+
+.sum {
+  color: var(--Rose-300);
+}
+
+.flex {
+  display: flex;
+  gap: 1rem;
+}
+
+.flex .price {
+  gap: 0.5rem;
+}
+
+.cancelBtn {
+  border: 3px solid var(--Rose-300);
+  border-radius: 50%;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cancelBtn:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.cancelBtn > img {
+  width: 2rem;
+}
+
+hr {
+  margin: 3rem 0;
+  opacity: 0.3;
+}
