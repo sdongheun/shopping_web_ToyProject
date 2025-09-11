@@ -24,6 +24,7 @@ body,
   font-style: normal;
   font-size: 62.5%;
   min-height: 100%;
+  position: relative;
 }
 
 #root {
@@ -68,6 +69,7 @@ h1 {
   padding: 3rem;
   border-radius: 2rem;
   background-color: var(--Rose-50);
+  height: fit-content;
 }
 
 .cart-title {

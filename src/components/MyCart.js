@@ -1,6 +1,6 @@
 import style from "./MyCart.module.css";
 
-const MyCart = ({ id, detail, price, number, isDelete }) => {
+const MyCart = ({ id, detail, price, number, onDelete }) => {
   return (
     <div>
       <div className={style.myCartContainer}>
@@ -14,7 +14,12 @@ const MyCart = ({ id, detail, price, number, isDelete }) => {
             <div className={style.sum}>${(number * price).toFixed(2)}</div>
           </div>
         </div>
-        <div className={style.cancelBtn} onClick={() => (isDelete = true)}>
+        <div
+          className={style.cancelBtn}
+          onClick={() => {
+            onDelete(id);
+          }}
+        >
           <img src="/images/icon-remove-item.svg" alt="취소" />
         </div>
       </div>

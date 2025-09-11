@@ -6,8 +6,8 @@
       "name": "Waffle",
       "detail": "Waffle with Berries",
       "price": "6.50",
-      "number": 4,
-      "delete": false
+      "number": 0,
+      "delete": true
     },
     {
       "id": "2",
@@ -15,8 +15,8 @@
       "name": "Crème Brûlée",
       "detail": "Vanilla Bean Crème Brûlée",
       "price": "7.00",
-      "number": 1,
-      "delete": false
+      "number": 0,
+      "delete": true
     },
     {
       "id": "3",
@@ -25,7 +25,7 @@
       "detail": "Macaron Mix of Five",
       "price": "8.00",
       "number": 0,
-      "delete": false
+      "delete": true
     },
     {
       "id": "4",
