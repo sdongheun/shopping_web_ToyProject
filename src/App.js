@@ -6,6 +6,8 @@ import OrderConfirm from "./components/OrderConfirm";
 
 function App() {
   const [data, setData] = useState(null);
+  const [showConfirmed, setShowConfirmed] = useState(false);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -22,6 +24,7 @@ function App() {
   }, []);
 
   const onChangeNumber = async (id, newNumber) => {
+    // 수량 조절 토글
     // 1. 수량이 0 미만으로 내려가지 않도록 방지
     if (newNumber < 1) return;
 
@@ -34,9 +37,24 @@ function App() {
     }));
 
     // 3. fetch를 사용하여 서버에 PATCH 요청 보내기
+    // persist to json-server
+    try {
+      const res = await fetch(`http://localhost:3001/products/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ number: newNumber, delete: false }),
+      });
+      if (!res.ok) throw new Error(`PATCH failed: ${res.status}`);
+      const updated = await res.json();
+      setData((prev) => ({
+        ...prev,
+        products: prev.products.map((p) => (p.id === id ? updated : p)),
+      }));
+    } catch (err) {}
   };
 
   const handleDelete = async (id) => {
+    // 삭제 버튼
     setData((prev) => ({
       ...prev,
       products: prev.products.map((p) => {
@@ -56,10 +74,43 @@ function App() {
       // 여기서 원래 상태로 되돌리는 등의 에러 처리 로직을 추가할 수 있습니다.
     }
   };
+
+  const resetOrder = async () => {
+    // reset
+    const prev = data.products;
+
+    // 1) Optimistic: clear locally
+    const cleared = prev.map((p) => ({ ...p, number: 0, delete: false }));
+    setData({ products: cleared });
+
+    // 2) Persist only items that actually need changes
+    try {
+      const targets = prev.filter((p) => p.number !== 0 || p.delete === true);
+      await Promise.all(
+        targets.map((p) =>
+          fetch(`http://localhost:3001/products/${p.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ number: 0, delete: false }),
+          })
+        )
+      );
+    } catch (e) {
+      console.error("reset failed", e);
+      // rollback on failure
+      setData({ products: prev });
+    } finally {
+      setShowConfirmed(false);
+    }
+  };
   if (!data) {
     // 네트워크가 느릴 시
     return <div>로딩 중...</div>;
   }
+
+  const cartItems = data.products.filter(
+    (p) => p.number > 0 && p.delete === false
+  );
 
   const totalPrice = data.products
     .filter((p) => p.number > 0 && p.delete === false)
@@ -69,6 +120,19 @@ function App() {
 
   return (
     <div className="container">
+      {showConfirmed && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.7)",
+            zIndex: 5,
+          }}
+        ></div>
+      )}
       <div className="desserts-container">
         <h1>Desserts</h1>
         <div className="menu-list">
@@ -123,30 +187,22 @@ function App() {
           <div
             className="button"
             onClick={() => {
-              if (totalPrice === 0) {
-                return console.log("fail");
-              } else {
-                return console.log("dd");
-              }
+              setShowConfirmed(true);
             }}
           >
             Confirm Order
           </div>
         </div>
+        <div>
+          {showConfirmed && (
+            <OrderConfirm
+              items={cartItems}
+              totalPrice={totalPrice}
+              onReset={resetOrder}
+            />
+          )}
+        </div>
       </div>
-      {data.products
-        .filter((p) => p.number > 0 && p.delete === false)
-        .map((p) => (
-          <OrderConfirm
-            id={p.id}
-            key={p.id}
-            img={p.img}
-            detail={p.detail}
-            price={p.price}
-            number={p.number}
-            totalPrice={totalPrice}
-          />
-        ))}
     </div>
   );
 }

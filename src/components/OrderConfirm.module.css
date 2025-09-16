@@ -8,6 +8,18 @@
   height: 90vh;
   border-radius: 2rem 2rem 0 0;
   padding: 2rem;
+  z-index: 5;
+}
+
+@media (width > 1440px) {
+  .mainContainer {
+    width: 50%;
+    height: fit-content;
+    border-radius: 2rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .checkImg {
@@ -16,7 +28,7 @@
 }
 
 h1 {
-  font-size: 5rem;
+  font-size: 4rem;
   margin-bottom: 1rem;
 }
 
@@ -28,9 +40,89 @@ p {
   background-color: var(--Rose-100);
   border-radius: 1rem;
   padding: 2rem;
+  font-size: 2rem;
+  margin: 3rem 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overflow {
+  overflow-y: auto;
+  height: 23rem;
 }
 
 .img {
   width: 5rem;
+  aspect-ratio: 1/1;
   border-radius: 1rem;
+}
+
+.justifyBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+.justifySpace {
+  display: flex;
+  gap: 2rem;
+}
+
+.alignSpace {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.detail {
+  font-size: 1.5rem;
+}
+
+.flex {
+  display: flex;
+  gap: 2rem;
+  align-items: end;
+  font-size: 1.5rem;
+}
+
+.number {
+  color: var(--Red);
+}
+
+.price {
+  color: var(--Rose-300);
+}
+
+.sum {
+  align-self: center;
+  font-size: 1.5rem;
+}
+
+.totalPrice {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-top: 2rem;
+}
+
+.totalPrice > span {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+hr {
+  margin: 2rem 0;
+}
+
+.reset {
+  background-color: var(--Red);
+  text-align: center;
+  padding: 1rem;
+  border-radius: 3rem;
+  font-size: 1.5rem;
+  color: var(--Rose-50);
+  /* margin: 1rem 0; */
+}
+
+.reset:hover {
+  cursor: pointer;
 }
